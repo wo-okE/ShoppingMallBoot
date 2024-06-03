@@ -1,4 +1,4 @@
-package com.apple.shoppingmallboot;
+package com.apple.shoppingmallboot.item;
 
 
 import lombok.RequiredArgsConstructor;
@@ -25,4 +25,5 @@ public class ItemService {
         return itemRepository.findById(id);
     }
 
+    public void deleteItem(Long id) { itemRepository.deleteById(id); }
 }

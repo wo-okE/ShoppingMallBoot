@@ -1,4 +1,4 @@
-package com.apple.shoppingmallboot;
+package com.apple.shoppingmallboot.article;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;

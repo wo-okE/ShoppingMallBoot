@@ -1,4 +1,4 @@
-package com.apple.shoppingmallboot;
+package com.apple.shoppingmallboot.article;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

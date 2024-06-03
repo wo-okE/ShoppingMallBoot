@@ -1,12 +1,12 @@
-package com.apple.shoppingmallboot;
+package com.apple.shoppingmallboot.item;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Controller
@@ -58,8 +58,21 @@ public class ItemController {
         }
     }
 
-    @PutMapping("/update")
-    void updateSaveItem(Item item){
-        System.out.println(item);
+    @PutMapping("/edit")
+    String updateSaveItem(@ModelAttribute Item item){
+        itemService.saveItem(item);
+        return "redirect:/list";
+    }
+
+    @GetMapping ("/test1")
+    String test1(@RequestParam String name, @RequestParam int age){
+        System.out.println(name + age + "요청들어옴");
+        return "redirect:/list";
+    }
+
+    @DeleteMapping("/delete/{id}")
+    void delete(@PathVariable Long id){
+        itemService.deleteItem(id);
+
     }
 }

@@ -1,4 +1,4 @@
-package com.apple.shoppingmallboot;
+package com.apple.shoppingmallboot.item;
 
 import jakarta.persistence.*;
 import lombok.EqualsAndHashCode;
@@ -13,6 +13,8 @@ public class Item {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY) private Long id;
     @Column(nullable = false) private String title;
     @Column(nullable = false) private Integer price;
+
+    public void setId(Long id) { this.id = id; }
 
     public void setTitle(String title) {
         this.title = title;
