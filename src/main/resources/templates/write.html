@@ -12,9 +12,33 @@
     <div th:replace="~{nav.html :: navbar}"></div>
     <form action="/add" method="POST">
 <!--        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">-->
-        <input name="title">
-        <input name="price">
-        <button type="submit">전송</button>
+        <input name="title" placeholder="상품명">
+        <input name="price" placeholder="가격">
+        <input type="hidden" name="imgUrl" id="imgUrl"/>
+        <button type="submit">저장</button>
+        <img src=""/>
+
     </form>
+    <input type="file" onchange="getURL(this)">
+<script>
+    async function getURL(e){
+        let name = encodeURIComponent(e.files[0].name);
+        let result = await fetch('/presigned-url?filename='+ name);
+        result = await result.text();
+
+        let rr = await fetch(result, {
+            method : 'PUT',
+            body : e.files[0]
+        });
+
+        console.log(rr);
+        console.log(rr.url.split("?")[0]);
+
+        if(rr.ok){
+            document.querySelector('img').src = rr.url.split("?")[0];
+            document.getElementById('imgUrl').value = rr.url.split("?")[0];
+        }
+    }
+</script>
 </body>
 </html>
