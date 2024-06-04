@@ -3,14 +3,12 @@ package com.apple.shoppingmallboot.member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 @Service
@@ -32,24 +30,5 @@ public class MyUserDetailsService implements UserDetailsService {
         var a = new CustomUser(user.getUsername(), user.getPassword(), authorities);
         a.setDisplayName(user.getDisplayName());
         return a;
-    }
-}
-
-class CustomUser extends User {
-    private String displayName;
-    public CustomUser(
-            String username,
-            String password,
-            Collection<? extends GrantedAuthority> authorities
-    ) {
-        super(username, password, authorities);
-    }
-
-    public String getDisplayName() {
-        return displayName;
-    }
-
-    public void setDisplayName(String displayName) {
-        this.displayName = displayName;
     }
 }
