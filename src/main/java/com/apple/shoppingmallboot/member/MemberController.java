@@ -27,7 +27,7 @@ public class MemberController {
     @GetMapping("/register")
     String registerView(Authentication auth){
         if(auth.isAuthenticated()){
-            return "redirect:/list";
+            return "redirect:/list/page/1";
         }else {
             return "register.html";
         }

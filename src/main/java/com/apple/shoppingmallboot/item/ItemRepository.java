@@ -11,4 +11,5 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
 
     Slice<Item> findSliceBy(Pageable page);
 
+
 }

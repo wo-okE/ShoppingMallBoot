@@ -37,4 +37,6 @@ public class ItemService {
     public Slice<Item> slicePageNation(int page, int cnt) {
         return itemRepository.findSliceBy(PageRequest.of(page,cnt));
     }
+
+
 }
