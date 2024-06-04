@@ -1,12 +1,16 @@
 package com.apple.shoppingmallboot.item;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Slice;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 @Controller
@@ -23,13 +27,26 @@ public class ItemController {
         return "list.html";
     }
 
+    @GetMapping("/list/page/{page}")
+    String list(Model model, @PathVariable Integer page) {
+        Page<Item> result = itemService.pageNation(page - 1,5);
+//        Slice<Item> result = itemService.slicePageNation(page -1, 5);
+        int resultCnt = result.getTotalPages();
+        model.addAttribute("items", result);
+        model.addAttribute("totalPage",resultCnt);
+
+        return "list.html";
+    }
+
     @GetMapping("/write")
     String write(){
         return "write.html";
     }
 
     @PostMapping("/add")
-    String addPost(@ModelAttribute Item item){
+    @PreAuthorize("isAuthenticated()")
+    String addPost(@ModelAttribute Item item, Authentication auth){
+        item.setCreateBy(auth.getName());
         itemService.saveItem(item);
         return "redirect:/list";
     }
@@ -48,6 +65,7 @@ public class ItemController {
     }
 
     @GetMapping("/edit/{id}")
+    @PreAuthorize("isAuthenticated()")
     String edit(@PathVariable Long id, Model model){
         Optional<Item> result = itemService.findById(id);
         if(result.isPresent()) {
@@ -70,9 +88,10 @@ public class ItemController {
         return "redirect:/list";
     }
 
-    @DeleteMapping("/delete/{id}")
-    void delete(@PathVariable Long id){
+    @DeleteMapping("/item")
+    @ResponseBody
+    ResponseEntity deleteItem(@RequestParam Long id){
         itemService.deleteItem(id);
-
+        return ResponseEntity.status(200).body("삭제완료");
     }
 }
