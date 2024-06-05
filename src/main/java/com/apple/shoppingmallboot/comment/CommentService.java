@@ -11,8 +11,8 @@ public class CommentService {
 
     private final CommentRepository commentRepository;
 
-    public Page<Comment> findByParentId(Integer page, Integer cnt){
-        return commentRepository.findPageByParentId(PageRequest.of(page,cnt));
+    public Page<Comment> pageNationComment(int page, int cnt, Long id){
+        return commentRepository.findPageByParentId(PageRequest.of(page,cnt), id);
     }
     public void saveComment(Comment comment){
         commentRepository.save(comment);

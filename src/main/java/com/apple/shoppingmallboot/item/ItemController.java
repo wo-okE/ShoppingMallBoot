@@ -55,16 +55,16 @@ public class ItemController {
     }
 
     @GetMapping("/detail/{id}/page/{page}")
-    String detail(@PathVariable Integer page,@PathVariable Long id, Model model) throws Exception {
+    String detail(@PathVariable int page,@PathVariable Long id, Model model) throws Exception {
 
         // Optional : 변수가 비어있을 수도 있고 Item 일 수도 있는 클래스
         Optional<Item> result = itemService.findById(id);
-        Page<Comment> commentResult = commentService.findByParentId(page - 1,3);
+        Page<Comment> commentResult = commentService.pageNationComment(page - 1,3, id);
         if(result.isPresent()) {
             model.addAttribute("data", result.get());
             if(!commentResult.isEmpty()){
                 model.addAttribute("comments",commentResult);
-                model.addAttribute("commentsCnt",commentResult.getTotalPages());
+                model.addAttribute("commentsCnt",commentResult.getTotalPages() == 0 ? 0 : commentResult.getTotalPages());
             }
         } else {
             return "redirect:/list/page/1";
@@ -108,6 +108,20 @@ public class ItemController {
     String getURL(@RequestParam String filename){
         var result = s3Service.createPresignedUrl("test/" + filename);
         return result;
+    }
+
+    @PostMapping("/search")
+    String postSearch(@RequestParam String searchText, @RequestParam int page, Model model){
+        Page<Item> result = itemService.rawQuery1(searchText, page - 1, 5);
+        if(!result.isEmpty()){
+            model.addAttribute("items",result);
+            if(result.getTotalPages() != 0){
+                model.addAttribute("totalPage",result.getTotalPages());
+            }
+            return "list.html";
+        } else {
+            return "redirect:/list/page/1";
+        }
     }
 
 }

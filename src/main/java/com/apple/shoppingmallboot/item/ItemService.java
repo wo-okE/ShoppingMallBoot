@@ -38,5 +38,11 @@ public class ItemService {
         return itemRepository.findSliceBy(PageRequest.of(page,cnt));
     }
 
+    public Page<Item> findAllByTitleContains(int page, int cnt, String searchText){
+        return itemRepository.findAllByTitleContains(PageRequest.of(page, cnt),searchText);
+    }
 
+    public Page<Item> rawQuery1(String searchText, int page, int cnt){
+        return itemRepository.rawQuery1(searchText, PageRequest.of(page, cnt));
+    }
 }

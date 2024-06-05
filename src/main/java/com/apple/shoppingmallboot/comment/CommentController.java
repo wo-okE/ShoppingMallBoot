@@ -18,7 +18,7 @@ public class CommentController {
         if(auth.isAuthenticated()){
             comment.setUsername(user.getUsername());
             commentService.saveComment(comment);
-            return "redirect:/detail/"+comment.getParentId()+"page/1";
+            return "redirect:/detail/"+comment.getParentId()+"/page/1";
         } else {
             return "redirect:/list/page/1";
         }
