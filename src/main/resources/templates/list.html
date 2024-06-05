@@ -10,10 +10,18 @@
 </head>
 <body>
     <div th:replace="~{nav.html :: navbar}"></div>
+
+    <form action="/search" method="POST" >
+        <input name="searchText" style="display : inline"/>
+        <input type="hidden" name="page" value="1"/>
+        <button type="submit">검색</button>
+    </form>
+
+
     <div class="card" th:each="i : ${items}">
         <img onerror="this.onerror=null; this.src='https://placehold.co/300';" th:src="${i.imgUrl}" />
         <div>
-            <a th:text="${i.title}" th:href="@{ '/detail/' + ${i.id} }">링크</a>
+            <a th:text="${i.title}" th:href="@{ '/detail/' + ${i.id} + '/page/1' }"></a>
             <p th:text="${i.price + '원'}"></p>
             <a th:href="@{ '/edit/' + ${i.id} }">✏️</a>
             <span th:onclick="fetch('/item?id=[[${i.id}]]', { method : 'DELETE'} )
@@ -22,7 +30,7 @@
         </div>
     </div>
     <div th:each="i : ${#numbers.sequence(1,totalPage)}">
-        <a th:href="@{ '/list/page/' + ${i} }" th:text="${i}"></a>
+        <a th:href="@{ '/list/page/' + ${i} }" th:text="${i}" style="display: inline"></a>
     </div>
 </body>
 </html>

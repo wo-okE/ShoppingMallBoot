@@ -25,7 +25,7 @@
             <p th:text="${comment.content}"></p>
         </div>
 
-        <div th:each="i : ${#numbers.sequence(1,commentsCnt)}">
+        <div th:each="i : ${#numbers.sequence(1,totalPage)}" th:if="${totalPage != '0'}">
             <a th:href="@{ '/detail/' + ${data.id} + '/page/' + ${i} }" th:text="${i}"></a>
         </div>
     </div>
