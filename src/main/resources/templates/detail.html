@@ -15,18 +15,30 @@
         <img onerror="this.onerror=null; this.src='https://placehold.co/300';" th:src="${data.imgUrl}" />
         <h4 th:text="${data.title}"></h4>
         <p th:text="${data.price + '원'}"></p>
+
+        <form action="/order" method="POST">
+            <input name="itemName" th:value="${data.title}"/>
+            <input name="price" th:value="${data.price}"/>
+            <input name="count" placeholder="count" />
+            <button style="text-align: left">주문하기</button>
+        </form>
+
+
         <form action="/comment" method="POST" style="margin: 50px 0;">
             <input type="hidden" name="parentId" th:value="${data.id}"/>
             <textarea style="width:370px; height:69px;" name="content"></textarea>
             <button type="submit">등록</button>
         </form>
+        <div th:if="${commentsCnt != 0}">
         <div th:each="comment : ${comments}">
             <h4 th:text="${comment.username}"></h4>
             <p th:text="${comment.content}"></p>
         </div>
-
-        <div th:each="i : ${#numbers.sequence(1,totalPage)}" th:if="${totalPage != '0'}">
-            <a th:href="@{ '/detail/' + ${data.id} + '/page/' + ${i} }" th:text="${i}"></a>
+        </div>
+        <div th:if="${commentsCnt != 0}">
+            <div th:each="i : ${#numbers.sequence(1,commentsCnt)}">
+                <a th:href="@{ '/detail/' + ${data.id} + '/page/' + ${i} }" th:text="${i}"></a>
+            </div>
         </div>
     </div>
 </body>
