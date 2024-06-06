@@ -1,6 +1,6 @@
 package com.apple.shoppingmallboot.member;
 
-import lombok.*;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -8,9 +8,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import java.util.HashMap;
-import java.util.Optional;
 
 @Controller
 // @PreAuthorize("isAuthenticated()") 어노테이션 안의 메소드가 참인 경우에만 실행 (클래스, 메소드 모두 가능)

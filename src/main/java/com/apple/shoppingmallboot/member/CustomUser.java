@@ -7,6 +7,7 @@ import java.util.Collection;
 
 public class CustomUser extends User {
     private String displayName;
+    private Long id;
 
     public CustomUser(
             String username,
@@ -14,6 +15,14 @@ public class CustomUser extends User {
             Collection<? extends GrantedAuthority> authorities
     ) {
         super(username, password, authorities);
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getDisplayName() {

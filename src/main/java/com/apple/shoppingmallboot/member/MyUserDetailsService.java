@@ -26,9 +26,9 @@ public class MyUserDetailsService implements UserDetailsService {
         var user = result.get();
         List<GrantedAuthority> authorities = new ArrayList<>();
         authorities.add(new SimpleGrantedAuthority("일반유저")); // 이걸 해야 유저의 권한 출력 가능
-
         var a = new CustomUser(user.getUsername(), user.getPassword(), authorities);
         a.setDisplayName(user.getDisplayName());
+        a.setId(user.getId());
         return a;
     }
 }

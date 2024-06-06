@@ -60,14 +60,13 @@ public class ItemController {
         // Optional : 변수가 비어있을 수도 있고 Item 일 수도 있는 클래스
         Optional<Item> result = itemService.findById(id);
         Page<Comment> commentResult = commentService.pageNationComment(page - 1,3, id);
-        if(result.isPresent()) {
-            model.addAttribute("data", result.get());
-            if(!commentResult.isEmpty()){
-                model.addAttribute("comments",commentResult);
-                model.addAttribute("commentsCnt",commentResult.getTotalPages() == 0 ? 0 : commentResult.getTotalPages());
-            }
+
+        model.addAttribute("data", result.get());
+        if(commentResult.getSize() != 0){
+            model.addAttribute("comments",commentResult);
+            model.addAttribute("commentsCnt",commentResult.getTotalPages());
         } else {
-            return "redirect:/list/page/1";
+            model.addAttribute("commentsCnt",0);
         }
         return "detail.html";
     }
@@ -123,5 +122,4 @@ public class ItemController {
             return "redirect:/list/page/1";
         }
     }
-
 }
