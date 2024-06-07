@@ -16,7 +16,7 @@
         <h4 th:text="${data.title}"></h4>
         <p th:text="${data.price + '원'}"></p>
 
-        <form action="/order" method="POST">
+        <form action="/order" method="POST" style="display:inline-block;">
             <input name="itemName" th:value="${data.title}"/>
             <input name="price" th:value="${data.price}"/>
             <input name="count" placeholder="count" />
