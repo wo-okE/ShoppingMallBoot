@@ -1,5 +1,6 @@
 package com.apple.shoppingmallboot.sales;
 
+import com.apple.shoppingmallboot.member.Member;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,7 +20,14 @@ public class Sales {
     private String itemName;
     private Integer price;
     private Integer count;
-    private Long memberId;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(
+            name="member_id",
+            foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT)
+    )
+    private Member member;
+
     @CreationTimestamp
     private LocalDateTime created;
 }

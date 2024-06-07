@@ -1,12 +1,18 @@
 package com.apple.shoppingmallboot.member;
 
+import com.apple.shoppingmallboot.sales.Sales;
 import jakarta.persistence.*;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
+@Setter
 @ToString
 @EqualsAndHashCode
 public class Member {
@@ -15,20 +21,7 @@ public class Member {
     @Column(nullable = false) private String password;
     @Column(nullable = false) private String displayName;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public void setDisplayName(String displayName) {
-        this.displayName = displayName;
-    }
-
+    @ToString.Exclude
+    @OneToMany(mappedBy = "member")
+    List<Sales> sales = new ArrayList<>();
 }

@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>주문내역</title>
+    <link rel="stylesheet" href="/main.css" />
+    <style>
+        tr {
+            margin-bottom: 15px;
+        }
+        tr:first-child td {
+            font-weight : 700;
+        }
+        td {
+            width : 250px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<div th:replace="~{nav.html :: navbar}"></div>
+<table>
+    <tr>
+        <td>구매자</td>
+        <td>상품명</td>
+        <td>가격</td>
+        <td>갯수</td>
+        <td>주문일시</td>
+    </tr>
+    <tr th:each="data : ${datas}">
+        <td th:text="${data.getMember().getUsername()}"></td>
+        <td th:text="${data.getItemName()}"></td>
+        <td th:text="${data.getPrice()}"></td>
+        <td th:text="${data.getCount()}"></td>
+        <td th:text="${data.getCreated()}"></td>
+    </tr>
+</table>
+</body>
+</html>

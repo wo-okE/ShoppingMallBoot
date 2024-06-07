@@ -18,4 +18,6 @@ public class MemberService {
     public Optional<Member> findByIdUser(Long id) { return memberRepository.findById(id); }
 
     public Optional<Member> findByUserName(String username) { return memberRepository.findByUsername(username); }
+
+    public Optional<Member> findById(Long id) { return memberRepository.findById(id); }
 }
