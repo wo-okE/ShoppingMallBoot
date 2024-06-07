@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 public class SalesDto {
     private String itemName;
     private Integer price;
+    private Integer count;
     private String userName;
     private String displayName;
     private LocalDateTime created;

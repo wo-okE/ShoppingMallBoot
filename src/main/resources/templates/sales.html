@@ -31,7 +31,7 @@
         <td>주문일시</td>
     </tr>
     <tr th:each="data : ${datas}">
-        <td th:text="${data.getMember().getUsername()}"></td>
+        <td th:text="${data.getUserName()}"></td>
         <td th:text="${data.getItemName()}"></td>
         <td th:text="${data.getPrice()}"></td>
         <td th:text="${data.getCount()}"></td>

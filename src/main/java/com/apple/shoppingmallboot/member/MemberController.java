@@ -1,13 +1,18 @@
 package com.apple.shoppingmallboot.member;
 
+import com.apple.shoppingmallboot.config.JwtUtil;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 @Controller
 // @PreAuthorize("isAuthenticated()") 어노테이션 안의 메소드가 참인 경우에만 실행 (클래스, 메소드 모두 가능)
@@ -20,6 +25,8 @@ public class MemberController {
 
     private final MemberService memberService;
     private final PasswordEncoder passwordEncoder;
+    private final AuthenticationManagerBuilder authenticationManagerBuilder;
+    private final JwtUtil jwtUtil;
 
     @GetMapping("/register")
     String registerView(Authentication auth){
@@ -60,5 +67,41 @@ public class MemberController {
         var data = new MemberDto(result.getUsername(), result.getDisplayName(), result.getId());
 
         return data;
+    }
+
+    @PostMapping("/login/jwt")
+    @ResponseBody
+    public String loginJWT(@RequestBody Map<String, String> data,
+                           HttpServletResponse response){
+
+        var authToken = new UsernamePasswordAuthenticationToken(
+                data.get("username"),data.get("password")
+        );
+
+        var auth = authenticationManagerBuilder.getObject().authenticate(authToken);
+        SecurityContextHolder.getContext().setAuthentication(auth);
+
+        var jwt = jwtUtil.createToken(SecurityContextHolder.getContext().getAuthentication());
+
+        var cookie = new Cookie("jwt", jwt);
+        cookie.setMaxAge(10);
+        cookie.setHttpOnly(true);
+        cookie.setPath("/");
+        response.addCookie(cookie);
+
+        return jwt;
+    }
+
+    @GetMapping("/my-page/jwt")
+    @ResponseBody
+    String myPageJWT(Authentication auth) {
+        auth = SecurityContextHolder.getContext().getAuthentication();
+        var user = (CustomUser) auth.getPrincipal();
+        System.out.println(user.toString());
+        System.out.println(user.getDisplayName().toString());
+        System.out.println(user.getAuthorities().toString());
+
+
+        return "마이페이지데이터";
     }
 }

@@ -26,11 +26,12 @@ public class SalesService {
 
         for (int i = 0; i < result.size(); i++){
             salesDto = new SalesDto();
+            salesDto.setCount(result.get(i).getCount());
             salesDto.setPrice(result.get(i).getPrice());
+            salesDto.setCreated(result.get(i).getCreated());
             salesDto.setItemName(result.get(i).getItemName());
             salesDto.setUserName(result.get(i).getMember().getUsername());
             salesDto.setDisplayName(result.get(i).getMember().getDisplayName());
-            salesDto.setCreated(result.get(i).getCreated());
 
             resultList.add(salesDto);
         }
